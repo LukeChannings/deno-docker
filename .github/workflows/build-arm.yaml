@@ -41,9 +41,9 @@ jobs:
           docker buildx build \
             --cache-from "type=local,src=/tmp/.buildx-cache" \
             --cache-to "type=local,dest=/tmp/.buildx-cache" \
-            --platform linux/amd64,linux/arm/v7
+            --platform linux/amd64,linux/arm/v7 \
             --output "type=image,push=false" \
-            --tag lukechannings/deno:1.6.3
+            --tag lukechannings/deno:1.6.3 \
             --file ./alpine-built.dockerfile
       -
         name: Inspect image

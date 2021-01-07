@@ -44,7 +44,7 @@ jobs:
             --platform linux/amd64,linux/arm/v7 \
             --output "type=image,push=false" \
             --tag lukechannings/deno:1.6.3 \
-            --file ./alpine-built.dockerfile
+            --file ./alpine-built.dockerfile .
       -
         name: Inspect image
         run: |

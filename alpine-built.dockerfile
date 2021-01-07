@@ -4,7 +4,7 @@
 # STEP 1
 # Build GN for alpine.
 #
-FROM alpine:3.10.1 as gn-builder
+FROM alpine:3.12.3 as gn-builder
 
 # There are many like but this one is ours...
 ARG GN_COMMIT=152c5144ceed9592c20f0c8fd55769646077569b
@@ -22,7 +22,7 @@ RUN \
   git \
   llvm \
   ninja \
-  python \
+  python2 \
   tar \
   xz \
   # Two quick fixes: we need the LLVM tooling in $PATH, and we
@@ -43,7 +43,7 @@ RUN \
 # STEP 2
 # Build deno binary for alpine.
 #
-FROM alpine:3.10.1 as deno-builder
+FROM alpine:3.12.3 as deno-builder
 
 ENV DENO_BUILD_MODE=release
 ENV DENO_VERSION=1.6.3
@@ -57,7 +57,7 @@ RUN apk add --no-cache curl && \
 # we need a very recent version of rust et al only available in edge repo.
 RUN sed -i -e 's/v[[:digit:]]\..*\//edge\//g' /etc/apk/repositories
 RUN apk upgrade --update-cache --available
-RUN apk add rust cargo clang bash python ninja linux-headers alpine-sdk build-base binutils-gold llvm linux-headers lld
+RUN apk add rust cargo clang bash python2 ninja linux-headers alpine-sdk build-base binutils-gold llvm linux-headers lld
 
 COPY --from=gn-builder /usr/local/bin/gn /bin/gn
 RUN cp /bin/gn /deno/third_party/v8/buildtools/linux64/gn
